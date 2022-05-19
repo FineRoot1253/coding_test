@@ -41,17 +41,19 @@ public class MAverage {
         Integer mSum = 0;
 
         // step 설명
-        // 1) 0 ~ M만큼 더한 mSum을 만듭니다.
-        // 이것을 하나씩 겹치는 만큼 더하고 겹치지 않는 부분은 빼는 방식으로 더합니다.
-
-        for (int i = 0; i < inputRecord.size(); i++) {
-
-
+        // 1) 0 ~ M만큼 더한 mSum을 만듭니다. (초반 루프 0~M 총합 토막)
+        // 2) 이것을 하나씩 겹치는 만큼 더하고 겹치지 않는 부분은 빼는 방식으로 더합니다.
+        // 이러면 이론상 브루트포스와 거치는 실행흐름은 다르지만 실핼절차는 똑같습니다
+        // ex) 0~M, 1~M+1(-=0번째, +=M+1번째), 2~M+2(-=1번째, +=M+2번째) ... 이런식으로 진행된다.
 
 
+        for (int i = 0; i < M; i++) {
+            mSum += inputRecord.get(i);
         }
-        for (int j = 0; j < M-1; j++) {
-            mSum += inputRecord.get(j);
+        for (int j = M; j < inputRecord.size(); j++) {
+            mSum += inputRecord.get(j+1);
+            resultRecord.add(mSum/M);
+            mSum-=inputRecord.get(j-M);
         }
 
         return resultRecord;
